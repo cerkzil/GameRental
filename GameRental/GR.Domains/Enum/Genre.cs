@@ -6,9 +6,9 @@ namespace GR.Domains.Enum
 {
     public enum Genre
     {
-        FPS,
-        Action,
-        Platformer,
-        Story
+        FPS = 1,
+        Action = 2,
+        Platformer = 3,
+        Story = 4
     }
 }

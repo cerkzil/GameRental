@@ -6,8 +6,8 @@ namespace GR.Domains.Enum
 {
     public enum Platform
     {
-        PS5,
-        XBOX,
-        SWITCH
+        PS5 = 0,
+        XBOX = 1,
+        SWITCH = 2
     }
 }

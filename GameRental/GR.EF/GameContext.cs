@@ -9,7 +9,7 @@ namespace Skaitykla.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = localhost; Database = coreDB; Trusted_Connection = True;");
+            optionsBuilder.UseSqlServer("Server=localhost; Database=coreDB; Trusted_Connection=True;");
         }
 
     }

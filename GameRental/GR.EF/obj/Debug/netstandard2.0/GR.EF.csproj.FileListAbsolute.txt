@@ -1,0 +1,12 @@
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\bin\Debug\netstandard2.0\GR.EF.deps.json
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\bin\Debug\netstandard2.0\GR.EF.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\bin\Debug\netstandard2.0\GR.EF.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\bin\Debug\netstandard2.0\GR.Domains.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\bin\Debug\netstandard2.0\GR.Domains.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.csprojAssemblyReference.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.AssemblyInfoInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.AssemblyInfo.cs
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.csproj.CoreCompileInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.csproj.CopyComplete
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.EF\obj\Debug\netstandard2.0\GR.EF.pdb
