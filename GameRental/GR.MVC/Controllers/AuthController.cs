@@ -1,76 +1,101 @@
-﻿using GR.MVC.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using GR.Domains;
-using GR.Domains.Enum;
+using GR.MVC.Models;
+using System.Threading.Tasks;
 
 namespace GR.MVC.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly ILogger<AuthController> _logger;
-        private User _adminUser;
-        public AuthController(ILogger<AuthController> logger)
-        {
-            _logger = logger;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IConfiguration _configuration;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-            _adminUser = new User()
-            {
-                Id = 1,
-                Email = "milk@milk.com",
-                Password = "pass",
-                IsAdmin = true,
-                Platforms = new List<Platform>()
-                    {
-                    Platform.PS5,
-                    Platform.SWITCH,
-                    Platform.XBOX
-                    }
-            };
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _configuration = configuration;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Login()
+
+        public IActionResult Logout()
         {
+            _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Login(string returnUrl = null)
+        {
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
+
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(SingInViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.AuthError = "Bad login details try again!";
-                return View("~/Views/Auth/Login.cshtml");
+                ViewBag.AuthError = "Something went wrong";
+                return View("~/Views/Auth/Login.cshtml", model);
             }
-
-            //check if it is admin
-            if (model.Email == _adminUser.Email && model.Password == _adminUser.Password)
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Admin");
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Index", "Home");
             }
-
-
             return View();
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> Register(RegistrationViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                AppUser newUser = new AppUser()
+                {
+                    Email = model.Email,
+                    UserName = model.Email
+                };
+                var result = await _userManager.CreateAsync(newUser, model.ConfirmPassword);
+
+                if (result.Succeeded)
+                {
+                    bool isAdmin = EmailCheckForAdmin(model.Email);
+                    if (isAdmin)
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "Admin");
+                    }
+                    return RedirectToAction("Login"); // Redirect to logging
+                }
+            }
+            return View("~/Views/Auth/Index.cshtml", model); //redirect to logging
         }
 
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        private bool EmailCheckForAdmin(string email)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return email.EndsWith(_configuration["ADMIN"]);
         }
     }
 }
+
+
+
+
+/*Platforms = new List<Platform>()
+                    {
+                    Platform.PS5,
+                    Platform.SWITCH,
+                    Platform.XBOX
+                    }*/

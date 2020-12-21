@@ -1,0 +1,14 @@
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.Services.deps.json
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.Services.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.Services.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.Domains.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.EF.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.Domains.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\bin\Debug\netstandard2.1\GR.EF.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.csprojAssemblyReference.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.AssemblyInfoInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.AssemblyInfo.cs
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.csproj.CoreCompileInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.csproj.CopyComplete
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Services\obj\Debug\netstandard2.1\GR.Services.pdb

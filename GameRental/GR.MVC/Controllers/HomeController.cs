@@ -1,4 +1,5 @@
 ﻿using GR.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,8 +24,10 @@ namespace GR.MVC.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
+            _logger.LogInformation("Privacy page says hello");
             return View();
         }
 
