@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using GR.Domains;
+using GR.Domains.Enum;
 using GR.MVC.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace GR.MVC.Controllers
 {
@@ -66,7 +68,9 @@ namespace GR.MVC.Controllers
                 AppUser newUser = new AppUser()
                 {
                     Email = model.Email,
-                    UserName = model.Email
+                    UserName = model.Email,
+                    Platform = model.Platform
+
                 };
                 var result = await _userManager.CreateAsync(newUser, model.ConfirmPassword);
 

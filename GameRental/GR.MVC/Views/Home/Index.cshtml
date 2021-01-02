@@ -1,8 +1,38 @@
-﻿@{
+﻿@model IEnumerable<GR.Domains.Game>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome To GameRentals!</h1>
     <p>Rent your favorite games for cheap!</p>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@item.ImgLink" alt="@item.Title">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    @{ var x = "";
+                        var y = "";
+
+                        @foreach (var p in item.PlatformList)
+                        {
+                            var platform = p.Platform + " ";
+                            x = x + platform;
+                        }
+                        @foreach (var g in item.GenreList)
+                        {
+                            var genre = g.Genre + " ";
+                            y = y + genre;
+                        }
+                        <p class="card-text">Platforms: @x</p>
+                        <p class="card-text">Genres: @y</p>
+                    }
+                    <a href="#" class="btn btn-primary">Order</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>

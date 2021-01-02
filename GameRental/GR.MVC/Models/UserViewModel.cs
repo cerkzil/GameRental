@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using GR.Domains.Enum;
 
 namespace GR.MVC.Models
 {
         public class RegistrationViewModel
         {
             [Required]
-            [StringLength(26, ErrorMessage = "The {0} must be atleast {2} and at max {1} characters long.", MinimumLength = 2)]
+            [StringLength(26, ErrorMessage = "The {0} must be atleast {2} and at max {1} characters long.", MinimumLength = 6)]
             public string Name { get; set; }
 
             [Required(ErrorMessage = "The email address is required")]
@@ -28,5 +29,9 @@ namespace GR.MVC.Models
             [Display(Name = "Confirm Password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do no match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Platform")]
+            public Platform Platform { get; set; }
         }
 }

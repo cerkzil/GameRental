@@ -15,6 +15,5 @@ namespace GR.MVC.Models
         [StringLength(26)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
     }
 }

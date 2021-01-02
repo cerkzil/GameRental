@@ -28,6 +28,14 @@
         <input type="password" class="form-control" id="exampleInputPassword2" asp-for="ConfirmPassword">
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Select Platform:</label>
+        <select class="form-control" id="exampleFormControlSelect1" asp-for="Platform">
+            <option value=1>PC</option>
+            <option value=2>PS5</option>
+            <option value=3>XBOX</option>
+            <option value=4>SWITCH</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" onClick="onSubmit();">Submit</button>
 </form>
-

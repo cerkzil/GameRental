@@ -1,0 +1,47 @@
+﻿@model GR.Domains.Game
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Game</h4>
+    <hr />
+    <div class="row">
+        <img src="@Model.ImgLink" alt="@Model.Title" width="100">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PlatformList)
+            </dt>
+            <dd class="col-sm-10">
+                @foreach (var p in Model.PlatformList)
+                {
+                    var platform = p.Platform + " ";
+                    @Html.DisplayFor(modelItem => platform)
+                }
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.GenreList)
+            </dt>
+            <dd class="col-sm-10">
+                @foreach (var g in Model.GenreList)
+                {
+                    var genre = g.Genre + " ";
+                    @Html.DisplayFor(modelItem => genre)
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
