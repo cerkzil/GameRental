@@ -9,6 +9,5 @@ namespace GR.Domains
     public class AppUser : IdentityUser
     {
         public string Name { get; set; }
-        public Platform Platform { get; set; }
     }
 }

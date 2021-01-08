@@ -1,4 +1,6 @@
-﻿using GR.EF;
+﻿using GR.Domains;
+using GR.Domains.Enum;
+using GR.EF;
 using GR.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +33,36 @@ namespace GR.MVC.Controllers
                 .ToListAsync());
         }
 
-        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(Genre? filter, Platform? filter2)
+        {
+            IEnumerable<Game> games = await _context.Games
+                .Include(x => x.GenreList)
+                .Include(x => x.PlatformList)
+                .ToListAsync();
+
+            if (filter.HasValue)
+            {
+                games = games.Where(x => x.GenreList.Any(y => y.Genre == filter));
+            }
+            if (filter2.HasValue)
+            {
+                games = games.Where(x => x.PlatformList.Any(y => y.Platform == filter2));
+            }
+
+            return View(games);
+        }
+
         public IActionResult Privacy()
         {
             _logger.LogInformation("Privacy page says hello");
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Orders()
+        {
             return View();
         }
 

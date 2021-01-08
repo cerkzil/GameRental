@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GR.MVC
 {
@@ -27,6 +28,7 @@ namespace GR.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton(_ => Configuration);
             services.AddDbContext<Context>();
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
             services.ConfigureApplicationCookie(options =>

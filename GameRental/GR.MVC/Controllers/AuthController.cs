@@ -68,16 +68,13 @@ namespace GR.MVC.Controllers
                 AppUser newUser = new AppUser()
                 {
                     Email = model.Email,
-                    UserName = model.Email,
-                    Platform = model.Platform
-
+                    UserName = model.Email
                 };
                 var result = await _userManager.CreateAsync(newUser, model.ConfirmPassword);
 
                 if (result.Succeeded)
                 {
-                    bool isAdmin = EmailCheckForAdmin(model.Email);
-                    if (isAdmin)
+                    if (EmailCheckForAdmin(model.Email))
                     {
                         await _userManager.AddToRoleAsync(newUser, "Admin");
                     }
@@ -89,17 +86,7 @@ namespace GR.MVC.Controllers
 
         private bool EmailCheckForAdmin(string email)
         {
-            return email.EndsWith(_configuration["ADMIN"]);
+            return email.EndsWith(_configuration["Admin"]);
         }
     }
 }
-
-
-
-
-/*Platforms = new List<Platform>()
-                    {
-                    Platform.PS5,
-                    Platform.SWITCH,
-                    Platform.XBOX
-                    }*/

@@ -11,9 +11,18 @@
     {
         <div class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <p style="margin-top: 0.5rem; margin-bottom: 0.5rem;">Hello @Name! </p>
-                </li>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li>
+                        <p style="margin-top: 0.5rem; margin-bottom: 0.5rem; color: darkred;">Hello @Name! </p>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <p style="margin-top: 0.5rem; margin-bottom: 0.5rem;">Hello @Name! </p>
+                    </li>
+                }
                 <li>
                     <a asp-controller="Auth" asp-action="Logout" class="btn btn-link navbar-btn navbar-link">Logout</a>
                 </li>

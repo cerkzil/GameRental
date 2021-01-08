@@ -29,9 +29,5 @@ namespace GR.MVC.Models
             [Display(Name = "Confirm Password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do no match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            [Display(Name = "Platform")]
-            public Platform Platform { get; set; }
         }
 }

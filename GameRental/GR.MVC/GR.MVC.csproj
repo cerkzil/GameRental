@@ -21,5 +21,16 @@
 		<ProjectReference Include="..\GR.Services\GR.Services.csproj" />
 		<ProjectReference Include="..\GR.EF\GR.EF.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Content Update="Views\Game\Details.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="Views\Game\Index.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 
 </Project>

@@ -17,6 +17,10 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ImgLink" class="control-label"></label>
+                <input asp-for="ImgLink" class="form-control" />
+            </div>
+            <div class="form-group">
                 <label for="exampleFormControlSelect1">Select Platform(s):</label>
                 <select multiple class="form-control" id="exampleFormControlSelect1" asp-for="Platforms">
                     <option value=0>PC</option>

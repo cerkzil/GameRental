@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GR.Domains;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GR.EF
 {
@@ -15,6 +12,5 @@ namespace GR.EF
         {
             optionsBuilder.UseSqlServer("Server=localhost;Database=test6DB;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
-
     }
 }

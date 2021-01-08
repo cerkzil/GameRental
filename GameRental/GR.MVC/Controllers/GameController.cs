@@ -10,20 +10,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GR.Domains.Enum;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GR.MVC.Controllers
 {
-    public class AdminController : Controller
+    public class GameController : Controller
     {
-        private readonly ILogger<AdminController> _logger;
+        private readonly ILogger<GameController> _logger;
         private readonly Context _context;
 
-        public AdminController(ILogger<AdminController> logger, Context context)
+        public GameController(ILogger<GameController> logger, Context context)
         {
             _logger = logger;
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Games
@@ -33,6 +35,7 @@ namespace GR.MVC.Controllers
         }
 
         // GET: Game/Details/
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -53,6 +56,7 @@ namespace GR.MVC.Controllers
         }
 
         // GET: Game/Create/
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -87,6 +91,7 @@ namespace GR.MVC.Controllers
         }
 
         // GET: Game/Edit/
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -105,6 +110,7 @@ namespace GR.MVC.Controllers
             var viewModel = new GameViewModel
             {
                 Title = game.Title,
+                ImgLink = game.ImgLink,
                 Id = game.Id
             };
 
@@ -114,7 +120,7 @@ namespace GR.MVC.Controllers
         // POST: Game/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Title,Platforms,Genres,Id")] GameViewModel model)
+        public async Task<IActionResult> Edit([Bind("Title,Platforms,Genres,ImgLink,Id")] GameViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -130,6 +136,7 @@ namespace GR.MVC.Controllers
                                     .FirstOrDefaultAsync(x => x.Id == model.Id);
 
                 game.Title = model.Title;
+                game.ImgLink = model.ImgLink;
                 game.PlatformList = platformList;
                 game.GenreList = genreList;
 
@@ -141,6 +148,7 @@ namespace GR.MVC.Controllers
         }
 
         // GET: Game/Delete/
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
