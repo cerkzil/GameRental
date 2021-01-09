@@ -27,6 +27,7 @@ namespace GR.MVC
             services.AddControllersWithViews();
             services.AddDbContext<Context>();
             services.AddTransient<IGameService, GameService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
             services.ConfigureApplicationCookie(options =>
             {

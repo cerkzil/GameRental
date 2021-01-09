@@ -10,6 +10,7 @@ using System;
 using GR.Domains.Enum;
 using System.Threading.Tasks;
 using System.Linq;
+using GR.Services.Interfaces;
 
 namespace GR.MVC.Controllers
 {
@@ -18,11 +19,15 @@ namespace GR.MVC.Controllers
         private readonly ILogger<OrderController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly Context _context;
+        private readonly IOrderService _service;
+        private readonly IGameService _gameService;
 
-        public OrderController(ILogger<OrderController> logger, UserManager<AppUser> userManager, Context context)
+        public OrderController(ILogger<OrderController> logger, UserManager<AppUser> userManager, Context context, IOrderService service, IGameService gameService)
         {
             _logger = logger;
             _context = context;
+            _service = service;
+            _gameService = gameService;
             _userManager = userManager;
         }
 
@@ -30,19 +35,17 @@ namespace GR.MVC.Controllers
         [Authorize(Roles = "Member, Admin")]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager
+            AppUser user = await _userManager
                .GetUserAsync(HttpContext.User);
-
-            var order = await _context.Orders.ToListAsync();
-
-            return View(order.Where(x => x.UserId == Guid.Parse(user.Id)));
+      
+            return View(await _service.GetUserOrdersAsync(user));
         }
 
         // GET: Order/IndexAll/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> IndexAll()
         {
-            return View(await _context.Orders.ToListAsync());
+            return View(await _service.GetAllOrdersAsync());
         }
 
         // GET: Order/Create/
@@ -54,15 +57,14 @@ namespace GR.MVC.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games
-              .FirstOrDefaultAsync(x => x.Id == id);
+            var game = await _gameService
+                .GetGameByIdAsync((Guid)id);
 
             var user = await _userManager
                 .GetUserAsync(HttpContext.User);
 
             return View(new OrderViewModel
             {
-                OrderId = Guid.NewGuid(),
                 GameId = game.Id,
                 GameTitle = game.Title,
                 UserId = Guid.Parse(user.Id),
@@ -73,29 +75,18 @@ namespace GR.MVC.Controllers
         // POST: Order/Create/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GameTitle,UserName,OrderId,GameId,UserId")] OrderViewModel model)
+        public async Task<IActionResult> Create([Bind("GameTitle,UserName,GameId,UserId")] OrderViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Order newOrder = new Order()
-                {
-                    GameTitle = model.GameTitle,
-                    UserName = model.UserName,
-                    OrderId = model.OrderId,
-                    GameId = model.GameId,
-                    UserId = model.UserId,
-                    OrderStatus = OrderStatus.OnGoing,
-                    OrderDate = DateTime.Now
-                };
-
-                _context.Add(newOrder);
-                await _context.SaveChangesAsync();
+                await _service
+                    .CreateOrderAsync(model.GameTitle, model.UserName, model.GameId, model.UserId);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
 
-        // GET: Order/Update
+        // GET: Order/Edit/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -111,7 +102,7 @@ namespace GR.MVC.Controllers
                 OrderStatus = order.OrderStatus});
         }
 
-        // POST: Order/Update/
+        // POST: Order/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("OrderId, OrderStatus")] OrderViewModel model)
@@ -189,7 +180,7 @@ namespace GR.MVC.Controllers
 
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexAll));
         }
     }
 }

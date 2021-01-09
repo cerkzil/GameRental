@@ -1,9 +1,11 @@
 ﻿using GR.Domains;
+using GR.Domains.Enum;
 using GR.EF;
 using GR.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GR.Services
@@ -16,9 +18,18 @@ namespace GR.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Game>> GetAllGamesAsync()
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await _context.Games.Include(x => x.GenreList).Include(x => x.PlatformList).ToListAsync();
+            var orders = await _context.Orders.ToListAsync();
+            return orders.OrderByDescending(x => x.OrderDate.Date)
+            .ThenBy(x => x.OrderDate.TimeOfDay);
+        }
+        public async Task<IEnumerable<Order>> GetUserOrdersAsync(AppUser user)
+        {
+            var orders = await _context.Orders.ToListAsync();
+            return orders.Where(x => x.UserId == Guid.Parse(user.Id))
+                         .OrderByDescending(x => x.OrderDate.Date)
+                         .ThenBy(x => x.OrderDate.TimeOfDay);
         }
 
         public async Task<Game> GetGameByIdAsync(Guid id)
@@ -32,17 +43,20 @@ namespace GR.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task CreateGameAsync(string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList)
+        public async Task CreateOrderAsync(string gameTitle, string userName, Guid gameId, Guid userId)
         {
-            Game newGame = new Game()
+            Order newOrder = new Order()
             {
-                Title = title,
-                ImgLink = imglink,
-                GenreList = genreList,
-                PlatformList = platformList
+                GameTitle = gameTitle,
+                UserName = userName,
+                OrderId = Guid.NewGuid(),
+                GameId = gameId,
+                UserId = userId,
+                OrderStatus = OrderStatus.OnGoing,
+                OrderDate = DateTime.Now
             };
 
-            _context.Add(newGame);
+            _context.Add(newOrder);
             await _context.SaveChangesAsync();
         }
         public async Task UpdateGameByIdAsync(Guid id, string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList)
