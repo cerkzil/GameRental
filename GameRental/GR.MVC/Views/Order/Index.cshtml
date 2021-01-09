@@ -1,0 +1,65 @@
+﻿@model IEnumerable<GR.Domains.Order>
+@using GR.Domains.Enum
+
+@{
+    ViewData["Title"] = "Your Orders";
+}
+
+<h1>Your Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string trStyle;
+            switch (item.OrderStatus)
+            {
+                case OrderStatus.Canceled:
+                    trStyle = "alert-danger";
+                    break;
+                case OrderStatus.Completed:
+                    trStyle = "alert-success";
+                    break;
+                default:
+                    trStyle = "alert-secondary";
+                    break;
+            }
+        <tr class=@trStyle>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @if (item.OrderStatus == OrderStatus.OnGoing)
+                {
+                    <a asp-action="Cancel" asp-route-id="@item.OrderId">Cancel</a>
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,13 +1,3 @@
 ﻿@{
-    dynamic l;
-    if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-    {
-        l = "_LayoutAdmin";
-    }
-    else
-    {
-        l = "_Layout";
-    }
-
-    Layout = l;
+    Layout = "_Layout";
 }   

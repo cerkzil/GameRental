@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,10 +7,8 @@ using Microsoft.Extensions.Hosting;
 using GR.EF;
 using GR.Domains;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using GR.Services;
+using GR.Services.Interfaces;
 
 namespace GR.MVC
 {
@@ -28,8 +25,8 @@ namespace GR.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton(_ => Configuration);
             services.AddDbContext<Context>();
+            services.AddTransient<IGameService, GameService>();
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
             services.ConfigureApplicationCookie(options =>
             {
@@ -74,7 +71,7 @@ namespace GR.MVC
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             //var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
-            string[] roleNames = { "Admin", "Manager", "Member" };
+            string[] roleNames = { "Admin", "Member" };
 
             foreach (var item in roleNames)
             {

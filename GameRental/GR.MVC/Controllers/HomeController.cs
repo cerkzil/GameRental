@@ -1,10 +1,8 @@
 ﻿using GR.Domains;
 using GR.Domains.Enum;
-using GR.EF;
 using GR.MVC.Models;
-using Microsoft.AspNetCore.Authorization;
+using GR.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,30 +15,25 @@ namespace GR.MVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly Context _context;
+        private readonly IGameService _service;
 
-        public HomeController(ILogger<HomeController> logger, Context context)
+        public HomeController(ILogger<HomeController> logger, IGameService service)
         {
             _logger = logger;
-            _context = context;
+            _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Games
-                .Include(x => x.GenreList)
-                .Include(x => x.PlatformList)
-                .ToListAsync());
+            return View(await _service.GetAllGamesAsync());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(Genre? filter, Platform? filter2)
+        public async Task<IActionResult> Index(Genre? filter, Platform? filter2, string search)
         {
-            IEnumerable<Game> games = await _context.Games
-                .Include(x => x.GenreList)
-                .Include(x => x.PlatformList)
-                .ToListAsync();
+
+            IEnumerable<Game> games = await _service.GetAllGamesAsync();
 
             if (filter.HasValue)
             {
@@ -50,19 +43,16 @@ namespace GR.MVC.Controllers
             {
                 games = games.Where(x => x.PlatformList.Any(y => y.Platform == filter2));
             }
-
+            if (!String.IsNullOrEmpty(search))
+            {
+                games = games.Where(x => x.Title.ToLower().Contains(search.ToLower()));
+            }
             return View(games);
         }
 
         public IActionResult Privacy()
         {
             _logger.LogInformation("Privacy page says hello");
-            return View();
-        }
-
-        [Authorize]
-        public IActionResult Orders()
-        {
             return View();
         }
 

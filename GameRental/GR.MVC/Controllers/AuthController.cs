@@ -78,6 +78,10 @@ namespace GR.MVC.Controllers
                     {
                         await _userManager.AddToRoleAsync(newUser, "Admin");
                     }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "Member");
+                    }
                     return RedirectToAction("Login"); // Redirect to logging
                 }
             }
