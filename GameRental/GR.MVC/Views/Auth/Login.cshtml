@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Login";
 }
 
 <h2>Please Login</h2>
@@ -9,7 +9,6 @@
         @ViewBag.AuthError
     </div>
 }
-
 
 <form method="post" asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@ViewData["returnUrl"]" asp-antiforgery="true">
     <div class="form-group">

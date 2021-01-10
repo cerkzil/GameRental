@@ -15,18 +15,18 @@
             </div>
             <div class="form-group col-md-2">
                 @Html.DropDownList("filter", new SelectList(Enum.GetValues(typeof(Genre))),
-                "Select Genre...", new { @class = "form-control" })
+                "Genre...", new { @class = "form-control" })
             </div>
             <div class="form-group col-md-2">
                 @Html.DropDownList("filter2", new SelectList(Enum.GetValues(typeof(Platform))),
-                "Select Platform...", new { @class = "form-control" })
+                "Platform...", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Filter" class="btn btn-primary" />
             </div>
         </div>
     }
-    <div class="row">
+    <div class="row gameRow">
         @foreach (var item in Model)
         {
             <div class="card" style="width: 16rem;">
@@ -55,8 +55,12 @@
     </div>
 </div>
 <style>
+    .gameRow {
+        justify-items: center;
+    }
     .card {
         margin: 5px;
+        justify-self: center;
     }
 
     .form-row {

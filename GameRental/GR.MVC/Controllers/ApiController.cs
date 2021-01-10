@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GR.MVC.Controllers
 {
-    [Route("api")]
+    [Route("Api")]
     [ApiController]
     public class ApiController : Controller
     {
@@ -18,19 +18,19 @@ namespace GR.MVC.Controllers
             _orderService = orderService;
             _gameService = gameService;
         }
-        // GET: api/
+        // GET: Api/
         public IActionResult Index()
         {
             return View();
         }
-        // GET: api/orders/
-        [Route("orders")]
+        // GET: Api/Orders/
+        [Route("Orders")]
         public async Task<IEnumerable<Order>> GetOrdersAsync()
         {
             return await _orderService.GetAllOrdersAsync();
         }
-        // GET: api/games/
-        [Route("games")]
+        // GET: Api/Games/
+        [Route("Games")]
         public async Task<IEnumerable<Game>> GetGamesAsync()
         {
             return await _gameService.GetAllGamesAsync();

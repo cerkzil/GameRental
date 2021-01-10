@@ -1,7 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Api";
+﻿@using GR.Domains.Enum
+@{
+    ViewData["Title"] = "API";
 }
-<h1>@ViewData["Title"]</h1>
+<h2>Our API's usage rules</h2>
+<p>You can use our website's endpoints: "/api/orders/" and "/api/games/" <br>
+    As long as you use it to expand or compliment our services!</p>
+<h2>Documentation</h2>
+<h3><a asp-action="Orders" asp-controller="Api">Orders</a> endpoint</h3>
+<p>In this endpoint you get list of all our user's orders.</p>
+<ul>
+    OrderStatus codes:
+    @foreach (OrderStatus x in Enum.GetValues(typeof(OrderStatus)))
+    {
+        <li>@((int)x): @x.ToString()</li>
+    }
+</ul>
+<h3><a asp-action="Games" asp-controller="Api">Games</a> endpoint</h3>
+<p>In this endpoint you get list of all our currently available games.</p>
+<div class="container gameEndpoint">
+    <ul>
+        Genre codes:
+        @foreach (Genre x in Enum.GetValues(typeof(Genre)))
+        {
+            <li>@((int)x): @x.ToString()</li>
+        }
+    </ul>
+    <ul>
+        Platform codes:
+        @foreach (Platform x in Enum.GetValues(typeof(Platform)))
+        {
+            <li>@((int)x): @x.ToString()</li>
+        }
+    </ul>
+</div>
 
-<p>You can use our website endpoints: "/api/orders/" and "/api/games/"</p>
-<p>As long as you use it to expand or compliment our services!</p>
+<style>
+    .gameEndpoint{
+        padding: 0px;
+        display: flex;
+    }
+    ul {
+        padding: 0px;
+        padding-right: 2rem;
+    }
+    h3{
+        font-size: 1.5rem;
+    }
+    li {
+        list-style-type: none;
+    }
+</style>
