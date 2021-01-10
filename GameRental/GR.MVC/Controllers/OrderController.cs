@@ -1,16 +1,14 @@
 ﻿using GR.Domains;
-using GR.EF;
 using GR.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using GR.Domains.Enum;
 using System.Threading.Tasks;
-using System.Linq;
 using GR.Services.Interfaces;
+using System.Diagnostics;
 
 namespace GR.MVC.Controllers
 {
@@ -18,14 +16,12 @@ namespace GR.MVC.Controllers
     {
         private readonly ILogger<OrderController> _logger;
         private readonly UserManager<AppUser> _userManager;
-        private readonly Context _context;
         private readonly IOrderService _service;
         private readonly IGameService _gameService;
 
-        public OrderController(ILogger<OrderController> logger, UserManager<AppUser> userManager, Context context, IOrderService service, IGameService gameService)
+        public OrderController(ILogger<OrderController> logger, UserManager<AppUser> userManager, IOrderService service, IGameService gameService)
         {
             _logger = logger;
-            _context = context;
             _service = service;
             _gameService = gameService;
             _userManager = userManager;
@@ -37,7 +33,7 @@ namespace GR.MVC.Controllers
         {
             AppUser user = await _userManager
                .GetUserAsync(HttpContext.User);
-      
+
             return View(await _service.GetUserOrdersAsync(user));
         }
 
@@ -52,10 +48,7 @@ namespace GR.MVC.Controllers
         [Authorize(Roles = "Member, Admin")]
         public async Task<IActionResult> Create(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return RedirectToAction("Error"); }
 
             var game = await _gameService
                 .GetGameByIdAsync((Guid)id);
@@ -69,7 +62,7 @@ namespace GR.MVC.Controllers
                 GameTitle = game.Title,
                 UserId = Guid.Parse(user.Id),
                 UserName = user.UserName
-            }); 
+            });
         }
 
         // POST: Order/Create/
@@ -83,23 +76,24 @@ namespace GR.MVC.Controllers
                     .CreateOrderAsync(model.GameTitle, model.UserName, model.GameId, model.UserId);
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return RedirectToAction("Error");
         }
 
         // GET: Order/Edit/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var order = await _context.Orders
-              .FirstOrDefaultAsync(x => x.OrderId == id);
+            if (id == null) { return RedirectToAction("Error"); }
 
-            return View(new OrderViewModel{
-                OrderId = order.OrderId, 
-                OrderStatus = order.OrderStatus});
+            var order = await _service.GetOrderByIdAsync((Guid)id);
+
+            if (order == null) { return RedirectToAction("Error"); }
+
+            return View(new OrderViewModel
+            {
+                OrderId = order.OrderId,
+                OrderStatus = order.OrderStatus
+            });
         }
 
         // POST: Order/Edit/
@@ -107,13 +101,7 @@ namespace GR.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("OrderId, OrderStatus")] OrderViewModel model)
         {
-            var order = await _context.Orders
-              .FirstOrDefaultAsync(x => x.OrderId == model.OrderId);
-
-            order.OrderStatus = model.OrderStatus;
-
-            _context.Update(order);
-            await _context.SaveChangesAsync();
+            await _service.UpdateOrderStatusByIdAsync(model.OrderId, model.OrderStatus);
             return RedirectToAction(nameof(IndexAll));
         }
 
@@ -121,12 +109,11 @@ namespace GR.MVC.Controllers
         [Authorize(Roles = "Member, Admin")]
         public async Task<IActionResult> Cancel(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var order = await _context.Orders
-              .FirstOrDefaultAsync(x => x.OrderId == id);
+            if (id == null) { return RedirectToAction("Error"); }
+
+            var order = await _service.GetOrderByIdAsync((Guid)id);
+
+            if (order == null) { return RedirectToAction("Error"); }
 
             return View(new OrderViewModel
             {
@@ -140,13 +127,7 @@ namespace GR.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel([Bind("OrderId")] OrderViewModel model)
         {
-            var order = await _context.Orders
-              .FirstOrDefaultAsync(x => x.OrderId == model.OrderId);
-
-            order.OrderStatus = OrderStatus.Canceled;
-
-            _context.Update(order);
-            await _context.SaveChangesAsync();
+            await _service.UpdateOrderStatusByIdAsync(model.OrderId, OrderStatus.Canceled);
             return RedirectToAction(nameof(Index));
         }
 
@@ -154,18 +135,11 @@ namespace GR.MVC.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return RedirectToAction("Error"); }
 
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(x => x.OrderId == id);
+            var order = await _service.GetOrderByIdAsync((Guid)id);
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+            if (order == null) {return RedirectToAction("Error");}
 
             return View(order);
         }
@@ -175,12 +149,14 @@ namespace GR.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(x => x.OrderId == id);
-
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            await _service.DeleteOrderByIdAsync(id);
             return RedirectToAction(nameof(IndexAll));
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

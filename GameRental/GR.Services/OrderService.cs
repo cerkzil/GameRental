@@ -21,31 +21,23 @@ namespace GR.Services
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             var orders = await _context.Orders.ToListAsync();
-            return orders.OrderByDescending(x => x.OrderDate.Date)
+            return orders.OrderBy(x => x.OrderDate.Date)
             .ThenBy(x => x.OrderDate.TimeOfDay);
         }
         public async Task<IEnumerable<Order>> GetUserOrdersAsync(AppUser user)
         {
             var orders = await _context.Orders.ToListAsync();
             return orders.Where(x => x.UserId == Guid.Parse(user.Id))
-                         .OrderByDescending(x => x.OrderDate.Date)
+                         .OrderBy(x => x.OrderDate.Date)
                          .ThenBy(x => x.OrderDate.TimeOfDay);
         }
-
-        public async Task<Game> GetGameByIdAsync(Guid id)
+        public async Task<Order> GetOrderByIdAsync(Guid id)
         {
-            return await _context.Games.Include(x => x.GenreList).Include(x => x.PlatformList).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
         }
-
-        public async Task DeleteGameByIdAsync(Guid id)
-        {
-            _context.Games.Remove(await GetGameByIdAsync(id));
-            await _context.SaveChangesAsync();
-        }
-
         public async Task CreateOrderAsync(string gameTitle, string userName, Guid gameId, Guid userId)
         {
-            Order newOrder = new Order()
+            _context.Add(new Order()
             {
                 GameTitle = gameTitle,
                 UserName = userName,
@@ -54,21 +46,19 @@ namespace GR.Services
                 UserId = userId,
                 OrderStatus = OrderStatus.OnGoing,
                 OrderDate = DateTime.Now
-            };
-
-            _context.Add(newOrder);
+            });
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateGameByIdAsync(Guid id, string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList)
+        public async Task UpdateOrderStatusByIdAsync(Guid id, OrderStatus newStatus)
         {
-            var game = await GetGameByIdAsync(id);
-
-            game.Title = title;
-            game.ImgLink = imglink;
-            game.PlatformList = platformList;
-            game.GenreList = genreList;
-
-            _context.Update(game);
+            var order = await GetOrderByIdAsync(id);
+            order.OrderStatus = newStatus;
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteOrderByIdAsync(Guid id)
+        {
+            _context.Remove(await GetOrderByIdAsync(id));
             await _context.SaveChangesAsync();
         }
     }

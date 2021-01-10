@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using GR.Domains;
-using GR.Domains.Enum;
 using GR.MVC.Models;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace GR.MVC.Controllers
 {

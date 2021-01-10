@@ -20,29 +20,24 @@ namespace GR.Services
         {
             return await _context.Games.Include(x => x.GenreList).Include(x => x.PlatformList).ToListAsync();
         }
-
         public async Task<Game> GetGameByIdAsync(Guid id)
         {
             return await _context.Games.Include(x => x.GenreList).Include(x => x.PlatformList).FirstOrDefaultAsync(x => x.Id == id);
         }
-
         public async Task DeleteGameByIdAsync(Guid id)
         {
             _context.Games.Remove(await GetGameByIdAsync(id));
             await _context.SaveChangesAsync();
         }
-
         public async Task CreateGameAsync(string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList)
         {
-            Game newGame = new Game()
+            _context.Add(new Game()
             {
                 Title = title,
                 ImgLink = imglink,
                 GenreList = genreList,
                 PlatformList = platformList
-            };
-
-            _context.Add(newGame);
+            });
             await _context.SaveChangesAsync();
         }
         public async Task UpdateGameByIdAsync(Guid id, string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList)

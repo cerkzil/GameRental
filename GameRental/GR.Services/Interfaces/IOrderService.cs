@@ -1,4 +1,5 @@
 ﻿using GR.Domains;
+using GR.Domains.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace GR.Services.Interfaces
     {
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<IEnumerable<Order>> GetUserOrdersAsync(AppUser user);
-        Task<Game> GetGameByIdAsync(Guid id);
-        Task DeleteGameByIdAsync(Guid id);
+        Task DeleteOrderByIdAsync(Guid id);
+        Task<Order> GetOrderByIdAsync(Guid id);
+        Task UpdateOrderStatusByIdAsync(Guid id, OrderStatus newStatus);
         Task CreateOrderAsync(string gameTitle, string userName, Guid gameId, Guid userId);
-        Task UpdateGameByIdAsync(Guid id, string title, Uri imglink, List<Genres> genreList, List<Platforms> platformList);
     }
 }

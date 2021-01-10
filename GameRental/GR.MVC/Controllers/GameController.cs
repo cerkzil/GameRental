@@ -26,24 +26,18 @@ namespace GR.MVC.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetAllGamesAsync()) ;
+            return View(await _service.GetAllGamesAsync());
         }
 
         // GET: Game/Details/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return RedirectToAction("Error"); }
 
             var game = await _service.GetGameByIdAsync((Guid)id);
 
-            if (game == null)
-            {
-                return NotFound();
-            }
+            if (game == null) { return RedirectToAction("Error"); }
 
             return View(game);
         }
@@ -68,27 +62,21 @@ namespace GR.MVC.Controllers
                 List<Platforms> platformList = new List<Platforms>();
                 model.Platforms.ForEach(x => platformList.Add(new Platforms(x)));
 
-                await _service.CreateGameAsync(model.Title,model.ImgLink, genreList, platformList);
+                await _service.CreateGameAsync(model.Title, model.ImgLink, genreList, platformList);
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return RedirectToAction("Error");
         }
 
         // GET: Game/Edit/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return RedirectToAction("Error"); }
 
             var game = await _service.GetGameByIdAsync((Guid)id);
 
-            if (game == null)
-            {
-                return NotFound();
-            }
+            if (game == null) { return RedirectToAction("Error"); }
 
             List<Genre> genreList = new List<Genre>();
             game.GenreList.ForEach(x => genreList.Add(x.Genre));
@@ -123,24 +111,18 @@ namespace GR.MVC.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return RedirectToAction("Error");
         }
 
         // GET: Game/Delete/
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return RedirectToAction("Error"); }
 
             var game = await _service.GetGameByIdAsync((Guid)id);
 
-            if (game == null)
-            {
-                return NotFound();
-            }
+            if (game == null) { return RedirectToAction("Error"); }
 
             return View(game);
         }

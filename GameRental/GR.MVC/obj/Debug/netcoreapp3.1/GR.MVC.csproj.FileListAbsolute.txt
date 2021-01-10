@@ -197,3 +197,4 @@ C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.MVC\obj\Debug\netcoreap
 C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.MVC\obj\Debug\netcoreapp3.1\Razor\Views\Order\Delete.cshtml.g.cs
 C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.MVC\obj\Debug\netcoreapp3.1\Razor\Views\Order\IndexAll.cshtml.g.cs
 C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.MVC\obj\Debug\netcoreapp3.1\Razor\Views\Order\Cancel.cshtml.g.cs
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.MVC\obj\Debug\netcoreapp3.1\Razor\Views\Api\Index.cshtml.g.cs
