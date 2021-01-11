@@ -1,0 +1,12 @@
+﻿.gameRow {
+    justify-content: center;
+}
+
+.card {
+    margin: 5px;
+    justify-self: center;
+}
+
+.form-row {
+    justify-content: center;
+}

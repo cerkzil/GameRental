@@ -1,0 +1,9 @@
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\bin\Release\netstandard2.1\GR.Domains.deps.json
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\bin\Release\netstandard2.1\GR.Domains.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\bin\Release\netstandard2.1\GR.Domains.pdb
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.csprojAssemblyReference.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.AssemblyInfoInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.AssemblyInfo.cs
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.csproj.CoreCompileInputs.cache
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.dll
+C:\Users\milka\Documents\GitHub\GameRental\GameRental\GR.Domains\obj\Release\netstandard2.1\GR.Domains.pdb
