@@ -83,7 +83,7 @@ namespace GR.MVC.Controllers
                     return RedirectToAction("Login"); // Redirect to logging
                 }
             }
-            return View("~/Views/Auth/Index.cshtml", model); //redirect to logging
+            return View("~/Views/Auth/Index.cshtml", model); //Redirect to logging
         }
 
         private bool EmailCheckForAdmin(string email)

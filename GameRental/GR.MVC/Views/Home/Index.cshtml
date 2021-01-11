@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<link rel="stylesheet" href="~/css/Home/index.css" />
 
 <div class="text-center">
     <h1 class="display-4">Welcome To GameRentals!</h1>
@@ -11,7 +12,7 @@
     {
         <div class="form-row">
             <div class="form-group col-md-3">
-                @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search..." });
+                @Html.TextBox("search", null, new { @class = "form-control", @placeholder = "Search..." })
             </div>
             <div class="form-group col-md-2">
                 @Html.DropDownList("filter", new SelectList(Enum.GetValues(typeof(Genre))),
@@ -54,16 +55,3 @@
         }
     </div>
 </div>
-<style>
-    .gameRow {
-        justify-items: center;
-    }
-    .card {
-        margin: 5px;
-        justify-self: center;
-    }
-
-    .form-row {
-        justify-content: center;
-    }
-</style>

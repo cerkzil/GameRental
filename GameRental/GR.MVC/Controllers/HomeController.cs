@@ -22,12 +22,12 @@ namespace GR.MVC.Controllers
             _logger = logger;
             _service = service;
         }
-
+        //Main Page:
         public async Task<IActionResult> Index()
         {
             return View(await _service.GetAllGamesAsync());
         }
-
+        //Game filtering:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Genre? filter, Platform? filter2, string search)
@@ -50,12 +50,14 @@ namespace GR.MVC.Controllers
             return View(games);
         }
 
+        //Privacy Page:
         public IActionResult Privacy()
         {
             _logger.LogInformation("Privacy page says hello");
             return View();
         }
 
+        //About Page:
         public IActionResult About()
         {
             return View();

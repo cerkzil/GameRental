@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GameRentals </title>
+    <link runat="server" rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="~/favicon.ico" type="image/ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -36,10 +38,10 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Game" asp-action="Index">Edit All Games</a>
+                                <a class="nav-link text-dark" asp-controller="Game" asp-action="Index">All Games</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Order" asp-action="IndexAll">Edit All Orders</a>
+                                <a class="nav-link text-dark" asp-controller="Order" asp-action="IndexAll">All Orders</a>
                             </li>
                         }
                     </ul>
@@ -65,11 +67,3 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-<style>
-    footer {
-        display:flex;
-        justify-content:center;
-        text-align: center;
-    }
-</style>

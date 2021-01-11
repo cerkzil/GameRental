@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GR.EF.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210109092427_First")]
+    [Migration("20210111164737_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

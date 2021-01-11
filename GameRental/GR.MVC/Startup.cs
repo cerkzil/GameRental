@@ -9,6 +9,7 @@ using GR.Domains;
 using System;
 using GR.Services;
 using GR.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GR.MVC
 {
@@ -25,7 +26,8 @@ namespace GR.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<Context>();
+            services.AddDbContext<Context>(options => options
+            .UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
@@ -45,7 +47,6 @@ namespace GR.MVC
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -68,9 +69,7 @@ namespace GR.MVC
 
         private void CreateRoles(IServiceProvider serviceProvider)
         {
-
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            //var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
             string[] roleNames = { "Admin", "Member" };
 
